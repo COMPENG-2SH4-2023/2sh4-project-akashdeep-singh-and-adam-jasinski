@@ -3,7 +3,7 @@
 //Two Constructor methods
 GameMechs::GameMechs()
 {
-  input = NULL;
+  input = 0;
   exitFlag = false;
   boardSizeX = 20;
   boardSizeY = 10;
@@ -11,7 +11,7 @@ GameMechs::GameMechs()
 
 GameMechs::GameMechs(int boardX, int boardY)
 {
-  input = NULL;
+  input = 0;
   exitFlag = false;
   boardSizeX = boardX;
   boardSizeY = boardY;
@@ -33,7 +33,6 @@ void GameMechs::setExitTrue()
   {
     exitFlag = true;
   }
-  ;
 }
 
 //lose flag
@@ -42,7 +41,7 @@ bool GameMechs::getLoseFlagStatus()
   return loseFlag;
 }
 
-void GameMechs::setLoseFlag() {
+void GameMechs::setLoseTrue() {
   loseFlag = true;
 }
 
@@ -77,7 +76,7 @@ int GameMechs::getScore() const
 }
 
 //can be changed later to increase the score by more than 1 at a time
-void GameMechs::incrementScore()
+void GameMechs::incrementScore() 
 {
   score += 1;
 }

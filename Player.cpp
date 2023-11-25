@@ -7,7 +7,9 @@ Player::Player(GameMechs* thisGMRef)
     myDir = NONE;
 
     // more actions to be included
-    playerPos.setObjPos(mainGameMechsRef->getBoardSizeX()/2, mainGameMechsRef->getBoardSizeY()/2, '@');
+    playerPos.x = (mainGameMechsRef->getBoardSizeX()-2)/2;
+    playerPos.y = (mainGameMechsRef->getBoardSizeY()-2)/2;
+    playerPos.symbol = '@';
 }
 
 
@@ -56,9 +58,8 @@ void Player::updatePlayerDir()
                 myDir = RIGHT;
             }
             break;
-        default:
-            break;
     }
+    mainGameMechsRef->clearInput();
          
 }
 
@@ -70,16 +71,16 @@ void Player::movePlayer()
         switch (myDir)
         {
             case UP:
-                playerPos.y--;
-                break;
-            case DOWN:
-                playerPos.y++;
-                break;
-            case LEFT:
                 playerPos.x--;
                 break;
-            case RIGHT:
+            case DOWN:
                 playerPos.x++;
+                break;
+            case LEFT:
+                playerPos.y--;
+                break;
+            case RIGHT:
+                playerPos.y++;
                 break;
         }
     }
