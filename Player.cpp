@@ -69,16 +69,16 @@ void Player::movePlayer()
         switch (myDir)
         {
             case UP:
-                playerPos.x--;
-                break;
-            case DOWN:
-                playerPos.x++;
-                break;
-            case LEFT:
                 playerPos.y--;
                 break;
-            case RIGHT:
+            case DOWN:
                 playerPos.y++;
+                break;
+            case LEFT:
+                playerPos.x--;
+                break;
+            case RIGHT:
+                playerPos.x++;
                 break;
         }
     }
