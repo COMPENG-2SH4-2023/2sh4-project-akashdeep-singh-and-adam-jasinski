@@ -68,24 +68,24 @@ void DrawScreen(void)
    MacUILib_clearScreen(); 
    int i;
    int j;
-   int width = myGM->getBoardSizeY();
-   int height = myGM->getBoardSizeX();
+   int cols = myGM->getBoardSizeY();
+   int rows = myGM->getBoardSizeX();
 
    objPos tempPos;
    myPlayer->getPlayerPos(tempPos);
    
-   for(i = 0; i < height; i++)
+   for(i = 0; i < rows; i++)
    {
-        for(j = 0; j < width; j++)
+        for(j = 0; j < cols; j++)
         {
-            if(i == 0 || i== height-1 || j==0 || j==width-1)
+            if(i == 0 || i== rows-1 || j==0 || j==cols-1)
             {
                 MacUILib_printf("#");
             }
             
             else if (i == tempPos.x && j == tempPos.y)
             {
-                MacUILib_printf("@");
+                MacUILib_printf("%c",tempPos.symbol);
             }
 
             else
