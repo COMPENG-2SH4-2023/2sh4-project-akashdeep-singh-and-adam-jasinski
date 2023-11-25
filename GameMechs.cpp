@@ -1,24 +1,20 @@
 #include "GameMechs.h"
-
+#include "MacUILib.h"
 //Two Constructor methods
 GameMechs::GameMechs()
 {
-  input(0);
-  exitFlag(false);
-  loseFlag(false);
-  score(0);
-  boardSizeX(30);
-  boardSizeY(15);
+  input = NULL;
+  exitFlag = false;
+  boardSizeX = 20;
+  boardSizeY = 10;
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
 {
-  input(0);
-  exitFlag(false);
-  loseFlag(false);
-  score(0);
-  boardSizeX(boardX);
-  boardSizeY(boardY);
+  input = NULL;
+  exitFlag = false;
+  boardSizeX = boardX;
+  boardSizeY = boardY;
 }
 
 // do you need a destructor?
@@ -33,11 +29,15 @@ bool GameMechs::getExitFlagStatus()
 
 void GameMechs::setExitTrue()
 {
-  exitFlag = true;
+  if(input == 27)
+  {
+    exitFlag = true;
+  }
+  ;
 }
 
 //lose flag
-bool GameMechs::getLoseFlagStatus() const //const modifier added to not modify the state of the GameMechanics object
+bool GameMechs::getLoseFlagStatus() 
 {
   return loseFlag;
 }
@@ -49,6 +49,9 @@ void GameMechs::setLoseFlag() {
 //input 
 char GameMechs::getInput()
 {
+  if (MacUILib_hasChar()) {
+    input = MacUILib_getChar();
+  }
   return input;
 }
 
@@ -76,13 +79,13 @@ int GameMechs::getScore() const
 //can be changed later to increase the score by more than 1 at a time
 void GameMechs::incrementScore()
 {
-  score++;
+  score += 1;
 }
 
 //clear the last input to allow the next input to be registered
 void GameMechs::clearInput()
 {
-  input = 0;
+  setInput(0);
 }
 
 
