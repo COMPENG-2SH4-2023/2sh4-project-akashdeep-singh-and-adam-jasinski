@@ -1,13 +1,16 @@
 #include <iostream>
 #include "MacUILib.h"
 #include "objPos.h"
+#include "GameMechs.h"
+#include "Player.h"
 
 
 using namespace std;
 
 #define DELAY_CONST 100000
 
-bool exitFlag;
+GameMechs* myGM;
+Player* myPlayer;
 
 void Initialize(void);
 void GetInput(void);
@@ -23,7 +26,7 @@ int main(void)
 
     Initialize();
 
-    while(exitFlag == false)  
+    while(myGM->getExitFlagStatus() == false)  
     {
         GetInput();
         RunLogic();
@@ -41,22 +44,54 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    exitFlag = false;
+    myGM = new GameMechs();
+    myPlayer = new Player(myGM);
+
 }
 
 void GetInput(void)
 {
-   
+
 }
 
 void RunLogic(void)
 {
-    
+    myPlayer->updatePlayerDir();
+    myPlayer->movePlayer();
 }
 
 void DrawScreen(void)
 {
-    MacUILib_clearScreen();    
+   MacUILib_clearScreen(); 
+   int i;
+   int j;
+   int height = myGM->getBoardSizeY();
+   int width = myGM->getBoardSizeX();
+
+   objPos tempPos;
+   myPlayer->getPlayerPos(tempPos);
+   
+   for(i = 0; i < height; i++)
+   {
+        for(j = 0; j < width; j++)
+        {
+            if(i == 0 || i== height-1 || j==0 || j==width-1)
+            {
+                MacUILib_printf("#");
+            }
+            
+            else if (i == tempPos.x && j == tempPos.y)
+            {
+                MacUILib_printf("%c",tempPos.symbol);
+            }
+
+            else
+            {
+                MacUILib_printf(" ");
+            }
+        }
+        MacUILib_printf("\n");
+   }   
 
 }
 
