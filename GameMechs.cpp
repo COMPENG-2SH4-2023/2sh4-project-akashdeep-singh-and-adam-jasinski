@@ -7,6 +7,12 @@ GameMechs::GameMechs()
   exitFlag = false;
   boardSizeX = 20;
   boardSizeY = 10;
+  score = 0;
+
+  foodPos.setObjPos(-1, -1, 'o');
+
+  srand(time(nullptr));
+
 }
 
 GameMechs::GameMechs(int boardX, int boardY)
@@ -15,6 +21,12 @@ GameMechs::GameMechs(int boardX, int boardY)
   exitFlag = false;
   boardSizeX = boardX;
   boardSizeY = boardY;
+  score = 0;
+
+  foodPos.setObjPos(-1, -1, 'o');
+
+  srand(time(nullptr));
+  
 }
 
 // do you need a destructor?
@@ -41,7 +53,8 @@ bool GameMechs::getLoseFlagStatus()
   return loseFlag;
 }
 
-void GameMechs::setLoseTrue() {
+void GameMechs::setLoseTrue() 
+{
   loseFlag = true;
 }
 
@@ -85,6 +98,27 @@ void GameMechs::incrementScore()
 void GameMechs::clearInput()
 {
   setInput(0);
+}
+
+void GameMechs::generateFood(objPos blockOff)
+{
+  int targetPos;
+  bool flag = true;
+  do
+  {
+    flag = false;
+    foodPos.setObjPos((rand()%(boardSizeX-2))+1, (rand()%(boardSizeY-2))+1, 'o');
+    if (foodPos.isPosEqual(&blockOff))
+    {
+      flag = true;
+    }
+  } while(flag);
+
+}
+
+void GameMechs::getFoodPos(objPos &returnPos)
+{
+  foodPos.getObjPos(returnPos);
 }
 
 

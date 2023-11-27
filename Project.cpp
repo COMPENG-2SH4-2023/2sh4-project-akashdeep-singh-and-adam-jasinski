@@ -46,6 +46,8 @@ void Initialize(void)
 
     myGM = new GameMechs(20,10);
     myPlayer = new Player(myGM);
+    objPos tempFood = {-1,-1,'o'};
+    myGM->generateFood(tempFood);
 
 }
 
@@ -54,6 +56,13 @@ void GetInput(void)
     myGM->getInput();
     myGM->setExitTrue();
     myGM->getExitFlagStatus();
+
+    objPos tempFood = {-1,-1,'o'};
+
+    if (myGM->getInput() == 'v')
+    {
+        myGM->generateFood(tempFood);
+    }
 }
 
 void RunLogic(void)
@@ -73,6 +82,9 @@ void DrawScreen(void)
 
    objPos tempPos;
    myPlayer->getPlayerPos(tempPos);
+
+   objPos foodPos;
+   myGM->getFoodPos(foodPos);
    
    for(i = 0; i < height; i++)
    {
@@ -86,6 +98,11 @@ void DrawScreen(void)
             else if (i == tempPos.y && j == tempPos.x)
             {
                 MacUILib_printf("%c",tempPos.symbol);
+            }
+
+            else if (i == foodPos.y && j == foodPos.x)
+            {
+                MacUILib_printf("%c",foodPos.symbol);
             }
 
             else
@@ -110,4 +127,5 @@ void CleanUp(void)
     MacUILib_clearScreen();    
   
     MacUILib_uninit();
+
 }
