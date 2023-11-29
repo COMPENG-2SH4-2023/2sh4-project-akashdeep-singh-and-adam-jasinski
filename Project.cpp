@@ -54,9 +54,10 @@ void Initialize(void)
 
 void GetInput(void)
 {
+    myGM->getExitFlagStatus();
+    myGM->getLoseFlagStatus();
     myGM->getInput();
     myGM->setExitTrue();
-    myGM->getExitFlagStatus();
 }
 
 void RunLogic(void)

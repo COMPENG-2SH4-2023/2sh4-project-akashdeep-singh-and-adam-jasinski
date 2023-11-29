@@ -117,6 +117,10 @@ void Player::movePlayer()
         currentHead.y = 1;
     }
 
+
+    
+    
+
     if (checkSelfCollision() == true)
     {
         mainGameMechsRef->setLoseTrue();
@@ -124,6 +128,7 @@ void Player::movePlayer()
 
     playerPos->insertHead(currentHead);
     playerPos->removeTail();
+
 
     if(currentHead.isPosEqual(&foodPos))
     {
@@ -134,10 +139,9 @@ void Player::movePlayer()
 
 }
 
-// In Player class
 bool Player::checkSelfCollision()
 {
-    objPosArrayList* body = getPlayerPos();  // Get player's body
+    objPosArrayList* body = getPlayerPos();  
     objPos currentHead;
     body->getHeadElement(currentHead);
 
@@ -147,10 +151,10 @@ bool Player::checkSelfCollision()
         body->getElement(block, i);
         if (currentHead.isPosEqual(&block))
         {
-            return true;  // Collision detected
+            return true;  
         }
     }
-    return false;  // No collision
+    return false;  
 }
 
 
