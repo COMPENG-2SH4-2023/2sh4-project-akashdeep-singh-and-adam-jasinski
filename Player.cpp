@@ -1,4 +1,5 @@
 #include "Player.h"
+#include "objPosArrayList.h"
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -7,19 +8,28 @@ Player::Player(GameMechs* thisGMRef)
     myDir = NONE;
 
     // more actions to be included
-    playerPos.setObjPos((mainGameMechsRef->getBoardSizeX()-2)/2,(mainGameMechsRef->getBoardSizeY()-2)/2,'@');
+    objPos tempPos;
+    tempPos.setObjPos((mainGameMechsRef->getBoardSizeX()-2)/2,(mainGameMechsRef->getBoardSizeY()-2)/2,'@');
+    playerPos = new objPosArrayList();
+    playerPos->insertHead(tempPos);
+    playerPos->insertHead(tempPos);
+    playerPos->insertHead(tempPos);
+    playerPos->insertHead(tempPos);
+    playerPos->insertHead(tempPos);
+    playerPos->insertHead(tempPos);
 }
 
 
 Player::~Player()
 {
+    delete playerPos;
     // delete any heap members here
 }
 
-void Player::getPlayerPos(objPos &returnPos)
+objPosArrayList* Player::getPlayerPos()
 {
-    returnPos.setObjPos(playerPos.x, playerPos.y, playerPos.symbol);
     // return the reference to the playerPos arrray list
+    return playerPos;
 }
 
 void Player::updatePlayerDir()
@@ -63,22 +73,24 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+    objPos currentHead; 
+    playerPos->getHeadElement(currentHead);
     // PPA3 Finite State Machine logic
     if (myDir != NONE)
     {
         switch (myDir)
         {
             case UP:
-                playerPos.y--;
+                currentHead.y--;
                 break;
             case DOWN:
-                playerPos.y++;
+                currentHead.y++;
                 break;
             case LEFT:
-                playerPos.x--;
+                currentHead.x--;
                 break;
             case RIGHT:
-                playerPos.x++;
+                currentHead.x++;
                 break;
         }
     }
@@ -86,24 +98,27 @@ void Player::movePlayer()
     int height = mainGameMechsRef->getBoardSizeY();
     int width = mainGameMechsRef->getBoardSizeX();
 
-    if(playerPos.x <=0)
+    if(currentHead.x <=0)
     {
-        playerPos.x = width-2;
+        currentHead.x = width-2;
     }
 
-    else if(playerPos.x >= width-1)
+    else if(currentHead.x >= width-1)
     {
-        playerPos.x = 1;
+        currentHead.x = 1;
     }
 
-    else if(playerPos.y <=0)
+    else if(currentHead.y <=0)
     {
-        playerPos.y= height-2;
+        currentHead.y= height-2;
     }
 
-    else if(playerPos.y >=height-1)
+    else if(currentHead.y >=height-1)
     {
-        playerPos.y = 1;
+        currentHead.y = 1;
     }
+
+    playerPos->insertHead(currentHead);
+    playerPos->removeTail();
 }
 

@@ -3,6 +3,7 @@
 #include "objPos.h"
 #include "GameMechs.h"
 #include "Player.h"
+#include "objPosArrayList.h"
 
 
 using namespace std;
@@ -75,35 +76,50 @@ void RunLogic(void)
 void DrawScreen(void)
 {
    MacUILib_clearScreen(); 
+   bool drawn;
    int i;
    int j;
    int height = myGM->getBoardSizeY();
    int width = myGM->getBoardSizeX();
 
-   objPos tempPos;
-   myPlayer->getPlayerPos(tempPos);
+   objPosArrayList* playerBody = myPlayer->getPlayerPos();
+   objPos tempBody;
 
-   objPos foodPos;
-   myGM->getFoodPos(foodPos);
+   //objPos foodPos;
+   //myGM->getFoodPos(foodPos);
    
    for(i = 0; i < height; i++)
    {
         for(j = 0; j < width; j++)
         {
+
+            drawn=false;
+
+            for(int k = 0; k<playerBody->getSize();k++)
+            {
+                playerBody->getElement(tempBody,k);
+                if(tempBody.x ==j and tempBody.y == i)
+                {
+                    MacUILib_printf("%c",tempBody.symbol);
+                    drawn=true;
+                    break;
+                }
+            }
+            
+            if(drawn)
+            {
+                continue;
+            }
+
             if(i == 0 || i== height-1 || j==0 || j==width-1)
             {
                 MacUILib_printf("#");
             }
             
-            else if (i == tempPos.y && j == tempPos.x)
-            {
-                MacUILib_printf("%c",tempPos.symbol);
-            }
-
-            else if (i == foodPos.y && j == foodPos.x)
-            {
-                MacUILib_printf("%c",foodPos.symbol);
-            }
+            // else if (i == foodPos.y && j == foodPos.x)
+            // {
+            //     MacUILib_printf("%c",foodPos.symbol);
+            // }
 
             else
             {
@@ -112,7 +128,6 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
    }  
-   MacUILib_printf("X: %d Y: %d\n", tempPos.x, tempPos.y); 
 
 }
 
