@@ -8,6 +8,7 @@ GameMechs::GameMechs()
   boardSizeX = 20;
   boardSizeY = 10;
   score = 0;
+  loseFlag=false;
 
   foodPos.setObjPos(-1, -1, 'o');
 
@@ -22,6 +23,7 @@ GameMechs::GameMechs(int boardX, int boardY)
   boardSizeX = boardX;
   boardSizeY = boardY;
   score = 0;
+  loseFlag=false;
 
   foodPos.setObjPos(-1, -1, 'o');
 
@@ -41,7 +43,7 @@ bool GameMechs::getExitFlagStatus()
 
 void GameMechs::setExitTrue()
 {
-  if(input == 27)
+  if(input == 27 || getLoseFlagStatus()==true)
   {
     exitFlag = true;
   }
@@ -100,17 +102,27 @@ void GameMechs::clearInput()
   setInput(0);
 }
 
-void GameMechs::generateFood(objPos blockOff)
+void GameMechs::generateFood(objPosArrayList &blockoff)
 {
   int targetPos;
   bool flag = true;
+
+
   do
   {
-    flag = false;
+
     foodPos.setObjPos((rand()%(boardSizeX-2))+1, (rand()%(boardSizeY-2))+1, 'o');
-    if (foodPos.isPosEqual(&blockOff))
+    flag = false;    
+    for(int i = 0; i <blockoff.getSize(); i++)
+    
     {
-      flag = true;
+      objPos currPos;
+      blockoff.getElement(currPos,i);
+      if(foodPos.isPosEqual(&currPos))
+      {
+        flag=true;
+        break;
+      }
     }
   } while(flag);
 

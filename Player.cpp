@@ -1,5 +1,4 @@
 #include "Player.h"
-#include "objPosArrayList.h"
 
 
 Player::Player(GameMechs* thisGMRef)
@@ -11,11 +10,6 @@ Player::Player(GameMechs* thisGMRef)
     objPos tempPos;
     tempPos.setObjPos((mainGameMechsRef->getBoardSizeX()-2)/2,(mainGameMechsRef->getBoardSizeY()-2)/2,'@');
     playerPos = new objPosArrayList();
-    playerPos->insertHead(tempPos);
-    playerPos->insertHead(tempPos);
-    playerPos->insertHead(tempPos);
-    playerPos->insertHead(tempPos);
-    playerPos->insertHead(tempPos);
     playerPos->insertHead(tempPos);
 }
 
@@ -73,8 +67,13 @@ void Player::updatePlayerDir()
 
 void Player::movePlayer()
 {
+    
+    objPos foodPos;
+    mainGameMechsRef->getFoodPos(foodPos);
+
     objPos currentHead; 
     playerPos->getHeadElement(currentHead);
+
     // PPA3 Finite State Machine logic
     if (myDir != NONE)
     {
@@ -118,7 +117,43 @@ void Player::movePlayer()
         currentHead.y = 1;
     }
 
+    if (checkSelfCollision() == true)
+    {
+        mainGameMechsRef->setLoseTrue();
+    }
+
     playerPos->insertHead(currentHead);
     playerPos->removeTail();
+
+    if(currentHead.isPosEqual(&foodPos))
+    {
+        playerPos->insertHead(currentHead);
+        mainGameMechsRef->generateFood(*playerPos);
+        mainGameMechsRef->incrementScore();
+    }
+
 }
+
+// In Player class
+bool Player::checkSelfCollision()
+{
+    objPosArrayList* body = getPlayerPos();  // Get player's body
+    objPos currentHead;
+    body->getHeadElement(currentHead);
+
+    for (int i = 1; i < body->getSize(); i++)
+    {
+        objPos block;
+        body->getElement(block, i);
+        if (currentHead.isPosEqual(&block))
+        {
+            return true;  // Collision detected
+        }
+    }
+    return false;  // No collision
+}
+
+
+
+
 
