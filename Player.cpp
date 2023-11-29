@@ -119,16 +119,13 @@ void Player::movePlayer()
 
 
     
-    
+    playerPos->insertHead(currentHead);
+    playerPos->removeTail();
 
     if (checkSelfCollision() == true)
     {
         mainGameMechsRef->setLoseTrue();
     }
-
-    playerPos->insertHead(currentHead);
-    playerPos->removeTail();
-
 
     if(currentHead.isPosEqual(&foodPos))
     {
