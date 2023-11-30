@@ -117,8 +117,6 @@ void Player::movePlayer()
         currentHead.y = 1;
     }
 
-
-    
     playerPos->insertHead(currentHead);
     playerPos->removeTail();
 

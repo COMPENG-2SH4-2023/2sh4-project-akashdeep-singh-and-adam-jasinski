@@ -29,10 +29,18 @@ int main(void)
 
     while(myGM->getExitFlagStatus() == false)  
     {
-        GetInput();
-        RunLogic();
-        DrawScreen();
-        LoopDelay();
+
+            GetInput();
+            if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
+                break;
+            RunLogic();
+            if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
+                break;
+            DrawScreen();
+            if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
+                break;
+            LoopDelay();
+
     }
 
     CleanUp();
@@ -123,6 +131,7 @@ void DrawScreen(void)
         }
         MacUILib_printf("\n");
    }  
+   MacUILib_printf("Your score is: %d",myGM->getScore());
 
 }
 
