@@ -14,10 +14,11 @@ StudentID: 400457334
 
 Student 2:
 
-Section: [Insert your lab section]
+Section: L02
 
-MacID: [Insert your macID here]
+MacID: singa301
 
-StudentID: [Insert your numerical student ID here]
+StudentID: 400465479
+
 
 
