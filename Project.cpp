@@ -12,6 +12,7 @@ using namespace std;
 
 GameMechs* myGM;
 Player* myPlayer;
+objPosArrayList* playerBody;
 
 void Initialize(void);
 void GetInput(void);
@@ -30,16 +31,19 @@ int main(void)
     while(myGM->getExitFlagStatus() == false)  
     {
 
-            GetInput();
-            if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
-                break;
-            RunLogic();
-            if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
-                break;
-            DrawScreen();
-            if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
-                break;
-            LoopDelay();
+        GetInput();
+        if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
+            break;
+
+        RunLogic();
+        if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
+            break;
+
+        DrawScreen();
+        if(myGM->getExitFlagStatus() || myGM->getLoseFlagStatus())
+            break;
+
+        LoopDelay();
 
     }
 
@@ -53,9 +57,9 @@ void Initialize(void)
     MacUILib_init();
     MacUILib_clearScreen();
 
-    myGM = new GameMechs(20,10);
+    myGM = new GameMechs();
     myPlayer = new Player(myGM);
-    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+    playerBody = myPlayer->getPlayerPos();
     myGM->generateFood(*playerBody);
 
 }
@@ -65,7 +69,7 @@ void GetInput(void)
     myGM->getExitFlagStatus();
     myGM->getLoseFlagStatus();
     myGM->getInput();
-    myGM->setExitTrue();
+    myGM->setExitTrue(); //will do nothing if the conditions in game mechs isnt met
 }
 
 void RunLogic(void)
@@ -79,21 +83,20 @@ void DrawScreen(void)
 {
    MacUILib_clearScreen(); 
    bool drawn;
-   int i;
-   int j;
+
    int height = myGM->getBoardSizeY();
    int width = myGM->getBoardSizeX();
 
-    objPosArrayList* playerBody = myPlayer->getPlayerPos();
+
     objPos tempBody;
     
     objPos foodPos;
     myGM->getFoodPos(foodPos);
 
    
-   for(i = 0; i < height; i++)
+   for(int i = 0; i < height; i++)
    {
-        for(j = 0; j < width; j++)
+        for(int j = 0; j < width; j++)
         {
 
             drawn=false;
