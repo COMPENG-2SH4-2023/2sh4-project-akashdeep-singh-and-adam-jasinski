@@ -74,6 +74,7 @@ void Player::movePlayer()
     objPos currentHead; 
     playerPos->getHeadElement(currentHead);
 
+
     // PPA3 Finite State Machine logic
     if (myDir != NONE)
     {
@@ -117,8 +118,6 @@ void Player::movePlayer()
         currentHead.y = 1;
     }
 
-    playerPos->insertHead(currentHead);
-    playerPos->removeTail();
 
     if (checkSelfCollision() == true)
     {
@@ -131,6 +130,12 @@ void Player::movePlayer()
         mainGameMechsRef->generateFood(*playerPos);
         mainGameMechsRef->incrementScore();
     }
+    else
+    {
+        playerPos->insertHead(currentHead);
+        playerPos->removeTail();
+    }
+
 
 }
 
