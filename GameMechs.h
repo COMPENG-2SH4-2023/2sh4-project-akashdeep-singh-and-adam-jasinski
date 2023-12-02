@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <time.h>
+#include <iostream>
 
 #include "objPos.h"
 #include "objPosArrayList.h"
@@ -49,7 +50,10 @@ class GameMechs
 
         void generateFood(objPosArrayList &blockoff);
         void getFoodPos(objPos &returnPos);
-      
+
+        void exitMessage();
+        void loseMessage();
+        void displayMessage();
 
 };
 

@@ -6,7 +6,7 @@ Player::Player(GameMechs* thisGMRef)
     mainGameMechsRef = thisGMRef;
     myDir = NONE;
 
-    // more actions to be included
+    //creating the default snake
     objPos tempPos;
     tempPos.setObjPos((mainGameMechsRef->getBoardSizeX()-2)/2,(mainGameMechsRef->getBoardSizeY()-2)/2,'*');
     playerPos = new objPosArrayList();
@@ -16,8 +16,8 @@ Player::Player(GameMechs* thisGMRef)
 
 Player::~Player()
 {
+    //deletes the player position heap member
     delete playerPos;
-    // delete any heap members here
 }
 
 objPosArrayList* Player::getPlayerPos()
@@ -68,9 +68,11 @@ void Player::updatePlayerDir()
 void Player::movePlayer()
 {
     
+    //creating a new food position object for snake eating logic
     objPos foodPos;
     mainGameMechsRef->getFoodPos(foodPos);
 
+    //creating a new head position object for snake movement + growth logic
     objPos currentHead; 
     playerPos->getHeadElement(currentHead);
 
@@ -95,9 +97,11 @@ void Player::movePlayer()
         }
     }
 
+    //getting heights and widths for ppa2/3 wraparound logic
     int height = mainGameMechsRef->getBoardSizeY();
     int width = mainGameMechsRef->getBoardSizeX();
 
+    //ppa2/3 wraparound logic
     if(currentHead.x <=0)
     {
         currentHead.x = width-2;
@@ -119,19 +123,24 @@ void Player::movePlayer()
     }
 
 
+    //checks if a player collision has occured
     if (checkSelfCollision() == true)
     {
         mainGameMechsRef->setLoseTrue();
     }
 
-    if(currentHead.isPosEqual(&foodPos))
+    //snake eating logic
+    if(currentHead.isPosEqual(&foodPos)) //checks if the head is at the same position as the food
     {
+        //if head is the same position as the food, insert a head, generate a new food object, and then +1 to score
         playerPos->insertHead(currentHead);
         mainGameMechsRef->generateFood(*playerPos);
         mainGameMechsRef->incrementScore();
     }
+    
     else
     {
+        //this is the player move logic (just add a new head at the next position and remove the tail)
         playerPos->insertHead(currentHead);
         playerPos->removeTail();
     }
@@ -141,14 +150,21 @@ void Player::movePlayer()
 
 bool Player::checkSelfCollision()
 {
+    //creates a new copy of the snake body
     objPosArrayList* body = getPlayerPos();  
+
+    //gets the head element of the snake body copy
     objPos currentHead;
     body->getHeadElement(currentHead);
 
-    for (int i = 1; i < body->getSize(); i++)
+    for (int i = 1; i < body->getSize(); i++) //iterates through the entire snake body
     {
+
+        //creates a new "block" object to store current player body segement for comparison
         objPos block;
         body->getElement(block, i);
+
+        //if a collision is detected, return true, otherwise return false
         if (currentHead.isPosEqual(&block))
         {
             return true;  

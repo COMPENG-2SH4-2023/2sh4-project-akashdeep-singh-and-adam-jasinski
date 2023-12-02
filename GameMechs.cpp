@@ -104,20 +104,21 @@ void GameMechs::clearInput()
 
 void GameMechs::generateFood(objPosArrayList &blockoff)
 {
+
   int targetPos;
   bool flag = true;
-
 
   do
   {
 
     foodPos.setObjPos((rand()%(boardSizeX-2))+1, (rand()%(boardSizeY-2))+1, 'o');
-    flag = false;    
+    flag = false;   
+
     for(int i = 0; i <blockoff.getSize(); i++)
-    
     {
       objPos currPos;
       blockoff.getElement(currPos,i);
+      
       if(foodPos.isPosEqual(&currPos))
       {
         flag=true;
@@ -131,6 +132,26 @@ void GameMechs::generateFood(objPosArrayList &blockoff)
 void GameMechs::getFoodPos(objPos &returnPos)
 {
   foodPos.getObjPos(returnPos);
+}
+
+void GameMechs::exitMessage()
+{
+  cout << "Thanks for playing!" << endl;
+}
+
+void GameMechs::loseMessage()
+{
+  cout << "You lost, you can do better!" << endl;
+}
+
+void GameMechs::displayMessage()
+{
+
+  if(getLoseFlagStatus()==true)
+    loseMessage();
+  else
+    exitMessage();
+
 }
 
 
