@@ -126,19 +126,26 @@ void GameMechs::generateFood(objPosArrayList &blockoff)
   {
 
     foodPos.setObjPos((rand()%(boardSizeX-2))+1, (rand()%(boardSizeY-2))+1, 'o');
+
+    //flag is set to false assuming the food position is valid
     flag = false;   
 
+    //loop checks if the foodposition collides with any blocked position (the player position)
     for(int i = 0; i <blockoff.getSize(); i++)
     {
       objPos currPos;
       blockoff.getElement(currPos,i);
       
+      //checks if the foodposition is the same as the current player position
+      //if so the flag is set to true
       if(foodPos.isPosEqual(&currPos))
       {
         flag=true;
         break;
       }
     }
+    //when the position of the player matches the position of the food the flag is set to true
+    //and the loop starts iterating again
   } while(flag);
 
 }
